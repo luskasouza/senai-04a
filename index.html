@@ -1,27 +1,47 @@
 <script>
-saldo = parseInt(prompt("Informar saldo inicial"));
-document.write("Saldo inicial: " + saldo + "<br>");
-encerrar = "n";
-while(encerrar == "n")
-{
-    tipo = parseInt(prompt("Informar tipo de entrada"));
-    quantidade = parseInt(prompt("Informar quantidade"));
-    if(tipo == 1) {
-        saldo = saldo + quantidade;
-        document.write("Entrada: " + quantidade + "<br>");
-    }
-    if(tipo == 2) {
-        if(saldo >= quantidade)  {
-            saldo = saldo - quantidade;
-            document.write("Saída: " + quantidade +  "<br>");
-        }
-        else  {
-            document.write("Saldo insuficiente" + "<br>");
-            alert("Saldo insuficiente");
+const db = [];
+
+while (true) {
+    const code = parseInt(prompt("Informe o código da peça"));
+
+    let found = false;
+    for (let i = 0; i < db.length; i++) {
+        if (db[i].code === code) {
+            found = true;
+            break;
         }
     }
-    document.write("Saldo: " + saldo + "<br>");
-    encerrar = prompt("Deseja encerrar ? (s/n)");
-}
-document.write("Sistema encerrado" + "<br>");
+
+    if (found) {
+        console.log('O código já está no banco de dados. Por favor, informe um código diferente.');
+    } else {
+        const description = prompt("Descrição da peça");
+        const quantity = parseInt(prompt("Quantidade"));
+        const valorUn = parseFloat(prompt("Preço unitário"));
+        const confirmar = prompt('Confirmar cadastro (s/n)');
+
+        if (confirmar === 's') {
+            db.push({
+                code: code,
+                description: description,
+                valorUn: valorUn,
+            });
+
+            document.write('Cadastro realizado com sucesso:' + "<br>");
+             document.write('Código:', code + "<br>");
+             document.write('Descrição:', description + "<br>");
+             document.write('Quantidade:', quantity + "<br>");
+             document.write('Preço Unitário:', valorUn + "<br>");
+        } else if (confirmar === 'n') {
+            document.write('O cadastro foi cancelado.' + "<br>");
+        } else {
+            document.write('Opção inválida. O cadastro foi cancelado.'+ "<br>");
+        }
+
+        const continuar = prompt('Deseja cadastrar outra peça? (s/n)');
+        if (continuar !== 's') {
+            break;
+        }
+    }
+} 
 </script>
